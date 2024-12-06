@@ -1,5 +1,8 @@
 import { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationProp } from "@react-navigation/core";
+import type { RootStackParamList } from "../../types/RootStackParamList";
 
 import FlatButton from "../ui/FlatButton";
 import AuthForm from "./AuthForm";
@@ -10,7 +13,10 @@ interface AuthContentProps {
   onAuthenticate?: (credentials: { email: string; password: string }) => void;
 }
 
-function AuthContent({ isLogin, onAuthenticate }: AuthContentProps) {
+type AuthContentNavigationProp = NavigationProp<RootStackParamList>;
+
+function AuthContent({ isLogin = false, onAuthenticate }: AuthContentProps) {
+  const navigation = useNavigation<AuthContentNavigationProp>();
   const [credentialsInvalid, setCredentialsInvalid] = useState({
     email: false,
     password: false,
@@ -19,10 +25,17 @@ function AuthContent({ isLogin, onAuthenticate }: AuthContentProps) {
   });
 
   function switchAuthModeHandler() {
-    // Todo
+    if (isLogin) {
+      navigation.navigate("Signup");
+    }
   }
 
-  function submitHandler(credentials) {
+  function submitHandler(credentials: {
+    email: string;
+    confirmEmail: string;
+    password: string;
+    confirmPassword: string;
+  }) {
     let { email, confirmEmail, password, confirmPassword } = credentials;
 
     email = email.trim();
@@ -47,7 +60,7 @@ function AuthContent({ isLogin, onAuthenticate }: AuthContentProps) {
       });
       return;
     }
-    onAuthenticate({ email, password });
+    onAuthenticate && onAuthenticate({ email, password });
   }
 
   return (

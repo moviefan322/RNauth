@@ -33,7 +33,7 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: AuthFormProps) {
     confirmPassword: passwordsDontMatch,
   } = credentialsInvalid;
 
-  function updateInputValueHandler(inputType, enteredValue) {
+  function updateInputValueHandler(inputType: string, enteredValue: string) {
     switch (inputType) {
       case "email":
         setEnteredEmail(enteredValue);
@@ -64,24 +64,27 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: AuthFormProps) {
       <View>
         <Input
           label="Email Address"
-          onUpdateValue={updateInputValueHandler.bind(this, "email")}
+          onUpdateValue={updateInputValueHandler.bind(null, "email")}
           value={enteredEmail}
           keyboardType="email-address"
+          secure={false}
           isInvalid={emailIsInvalid}
         />
         {!isLogin && (
           <Input
             label="Confirm Email Address"
-            onUpdateValue={updateInputValueHandler.bind(this, "confirmEmail")}
+            onUpdateValue={updateInputValueHandler.bind(null, "confirmEmail")}
             value={enteredConfirmEmail}
             keyboardType="email-address"
+            secure={false}
             isInvalid={emailsDontMatch}
           />
         )}
         <Input
           label="Password"
-          onUpdateValue={updateInputValueHandler.bind(this, "password")}
+          onUpdateValue={updateInputValueHandler.bind(null, "password")}
           secure
+          keyboardType="default"
           value={enteredPassword}
           isInvalid={passwordIsInvalid}
         />
@@ -89,9 +92,10 @@ function AuthForm({ isLogin, onSubmit, credentialsInvalid }: AuthFormProps) {
           <Input
             label="Confirm Password"
             onUpdateValue={updateInputValueHandler.bind(
-              this,
+              null,
               "confirmPassword"
             )}
+            keyboardType="default"
             secure
             value={enteredConfirmPassword}
             isInvalid={passwordsDontMatch}
@@ -113,4 +117,5 @@ const styles = StyleSheet.create({
   buttons: {
     marginTop: 12,
   },
+  form: {},
 });
