@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Alert, StyleSheet, View } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import { NavigationProp } from "@react-navigation/core";
+import { StackNavigationProp } from "@react-navigation/stack";
 import type { RootStackParamList } from "../../types/RootStackParamList";
 
 import FlatButton from "../ui/FlatButton";
@@ -13,7 +13,7 @@ interface AuthContentProps {
   onAuthenticate?: (credentials: { email: string; password: string }) => void;
 }
 
-type AuthContentNavigationProp = NavigationProp<RootStackParamList>;
+type AuthContentNavigationProp = StackNavigationProp<RootStackParamList>;
 
 function AuthContent({ isLogin = false, onAuthenticate }: AuthContentProps) {
   const navigation = useNavigation<AuthContentNavigationProp>();
@@ -26,7 +26,9 @@ function AuthContent({ isLogin = false, onAuthenticate }: AuthContentProps) {
 
   function switchAuthModeHandler() {
     if (isLogin) {
-      navigation.navigate("Signup");
+      navigation.replace("Signup");
+    } else {
+      navigation.replace("Login");
     }
   }
 
