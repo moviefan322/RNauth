@@ -18,6 +18,7 @@ const AuthContextProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = () => {
     setToken("");
+    AsyncStorage.removeItem("token");
   };
 
   const value = {
